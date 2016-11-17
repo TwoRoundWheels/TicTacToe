@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript" src="js/game.js"></script>
+</head>
+<body>
+	<div id = "wrapper">
+		<div id = "titleBar">Tic Tac Toe</div>
+		<div id = "gameBoard">
+			<table>
+				<tr><td id="0" class="border1" onclick= "checkIfOpen(0)"></td>
+					<td id="1" class="border2" onclick= "checkIfOpen(1)"></td>
+					<td id="2" class="border3" onclick= "checkIfOpen(2)"></td>
+				</tr>
+				<tr>
+					<td id="3" class="border4" onclick= "checkIfOpen(3)"></td>
+					<td id="4" class="border5" onclick= "checkIfOpen(4)"></td>
+					<td id="5" class="border6" onclick= "checkIfOpen(5)"></td>
+				</tr>
+				<tr>
+					<td id="6" class="border7" onclick= "checkIfOpen(6)"></td>
+					<td id="7" class="border8" onclick= "checkIfOpen(7)"></td>
+					<td id="8" class="border9" onclick= "checkIfOpen(8)"></td>
+				</tr>
+			</table>
+		</div>	
+		<div id = "scoreBoard">
+			<h2>YOU</h2>
+			<p id = "yourScore">0</p>
+			<h2>CPU</h2>
+			<p id = "cpuScore">0</p>	
+		</div>
+		<div id = "controlPanel">
+			<div id = "playAgain" onclick= "playAgain()">PLAY AGAIN</div> 
+			<div id ="reset" onclick= "window.location.reload()">RESET</div>
+		</div>
+	</div>
+</body>
+</html>
