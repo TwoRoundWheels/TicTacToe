@@ -7,8 +7,9 @@ body {
 	background-color: rgb(7, 7, 7);
 }
 #gameBoard {
+	left: 50%;
+	margin-left: -235px;
 	position: absolute;
-	left: 32%;
 	margin-top: 130px;
     border: 1px solid black;
     border-radius: 1px;
@@ -29,7 +30,7 @@ body {
 #controlPanel {
 	position: absolute;
 	top: 28%;
-	left: 74%;
+	right: 15%;
 	width: 150px;
 	height: 450px;
 	margin-top: 130px;
@@ -75,7 +76,7 @@ body {
 
 #titleBar {
 	position: absolute;
-	left: 29%;
+	left: 16%;
 	font-family: serif;
 	font-size: 6em;
 	font-weight: bold;
@@ -84,7 +85,7 @@ body {
 	padding: 0 20px;
 	background-color: rgb(8, 76, 97);
 	text-align: center;
-	width: 500px;
+	width: 66%;
 	margin: 0;
 }
 

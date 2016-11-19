@@ -187,6 +187,7 @@ function playAgain() {
 	}
 	randomPlayer();
 }
+
 function randomPlayer() {
 	var x = Math.floor(Math.random() * 10)
 	if (x % 2 == 0) {
