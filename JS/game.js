@@ -14,6 +14,7 @@ var cpuStreak = 0;
 // parameter.  BoardToTest parameter will be either the actual board or a copy 
 //of the board to test if the CPU or player can win.
 function checkIfWin(markerToTest, boardToTest) {
+	//horizontal wins
     if (boardToTest[0] == markerToTest && boardToTest[1] == markerToTest && boardToTest[2] == markerToTest) {
         return winCondition = true;
     }
@@ -23,6 +24,7 @@ function checkIfWin(markerToTest, boardToTest) {
     else if (boardToTest[6] == markerToTest && boardToTest[7] == markerToTest && boardToTest[8] == markerToTest) {
         return winCondition = true;
     }
+    //vertical wins
     else if (boardToTest[0] == markerToTest && boardToTest[3] == markerToTest && boardToTest[6] == markerToTest) {
         return winCondition = true;
     }
@@ -32,6 +34,7 @@ function checkIfWin(markerToTest, boardToTest) {
     else if (boardToTest[2] == markerToTest && boardToTest[5] == markerToTest && boardToTest[8] == markerToTest) {
         return winCondition = true;
     }
+    //diagonal wins
     else if (boardToTest[0] == markerToTest && boardToTest[4] == markerToTest && boardToTest[8] == markerToTest) {
         return winCondition = true;
     }
@@ -145,9 +148,10 @@ function checkCorners(isAvailable, openCorners, blankCpuChoice) {
 	}
 }
 
-//Check if any of the available squares are the middle squares along each side.  
+//CPU will take the center square if available, otherwise, check if any of the 
+//available squares are the middle squares along each side.  
 //If a middle square is open it is added to an array of openSides.  Then the CPU
-// will select a random index of the array as its choice.  
+//will select a random index of the array as its choice.  
 function checkOtherSquares(isAvailable, openSides, blankCpuChoice) {
 	for (i = 0; i < isAvailable.length; i++) {
 		if (isAvailable[i] == 4) {
