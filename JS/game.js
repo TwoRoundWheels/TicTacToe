@@ -1,6 +1,7 @@
+//Initialize variables. Constant variables are in CAPS//
 var board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-var playerMarker = "X";
-var cpuMarker = "O";
+var PLAYERMARKER = "X";
+var CPUMARKER = "O";
 var CORNERSQUARES = [0, 2, 6, 8];
 var SIDESQUARES = [1, 3, 5, 7];
 var cpuChoice = null;
@@ -9,33 +10,41 @@ var cpuScore = 0;
 var winCondition = false;
 var cpuStreak = 0;
 
+//Checks if either the player or CPU has won or can win based on the markerToTest
+// parameter.  BoardToTest parameter will be either the actual board or a copy 
+//of the board to test if the CPU or player can win.
 function checkIfWin(markerToTest, boardToTest) {
     if (boardToTest[0] == markerToTest && boardToTest[1] == markerToTest && boardToTest[2] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[3] == markerToTest && boardToTest[4] == markerToTest && boardToTest[5] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[6] == markerToTest && boardToTest[7] == markerToTest && boardToTest[8] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[0] == markerToTest && boardToTest[3] == markerToTest && boardToTest[6] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[1] == markerToTest && boardToTest[4] == markerToTest && boardToTest[7] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[2] == markerToTest && boardToTest[5] == markerToTest && boardToTest[8] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[0] == markerToTest && boardToTest[4] == markerToTest && boardToTest[8] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }
     else if (boardToTest[2] == markerToTest && boardToTest[4] == markerToTest && boardToTest[6] == markerToTest) {
-            return winCondition = true;
+        return winCondition = true;
     }   
 }
 
+//Create a copy of the current board to test if player or cpu can win.  The CPU
+//will test if it can win first, followed by testing to see if it can block the 
+//player from winning.  Otherwise the CPU will check if a corner square is available.
+//If no corners are available the CPU will select on of the remaining side squares, then
+//check if it has won.
 function cpuTurn() {
 	var isAvailable = [];
 	var openCorners = [];
@@ -64,9 +73,9 @@ function cpuTurn() {
 		checkOtherSquares(isAvailable, openSides, cpuChoice);
 	}
 	var squareToChange = document.getElementById(cpuChoice);
-	squareToChange.innerHTML = cpuMarker;
-	board[cpuChoice] = cpuMarker;
-	checkIfWin(cpuMarker, board);
+	squareToChange.innerHTML = CPUMARKER;
+	board[cpuChoice] = CPUMARKER;
+	checkIfWin(CPUMARKER, board);
 	if (winCondition == true) {
 		var changeTitleBar = document.getElementById("titleBar");
 		changeTitleBar.innerHTML = "You Lose!";
@@ -83,32 +92,46 @@ function cpuTurn() {
 	cpuChoice = null;		
 }
 
+//Test all of the available squares if placing the cpu marker on that square
+//will allow the CPU to win.  If a true winCondition is returned from the 
+//checkIfWin function, the CPU will set that square as its choice.  If not, it
+//will reset the copyOfBoard to the current state and test the next available
+//square.
 function checkIfCpuCanWin(isAvailable, copyOfBoard, blankCpuChoice) {		
 	for (i = 0; i < isAvailable.length; i++) {
-		copyOfBoard[isAvailable[i]] = cpuMarker;
-		checkIfWin(cpuMarker, copyOfBoard);
+		copyOfBoard[isAvailable[i]] = CPUMARKER;
+		checkIfWin(CPUMARKER, copyOfBoard);
 		if (winCondition == true) {
-			cpuChoice = isAvailable[i];
-			winCondition = false;
-			return;
+			return cpuChoice = isAvailable[i];
 		}
 		copyOfBoard = board.slice();	
 	}
 }
 
+//Test all of the available squares if placing the player marker on that square
+//will allow the player to win.  If a true condition is returned the CPU will 
+//select that square as its choice in order to block the player from winning.  
+//The winConditon will be set back to false, since the player did not acutally win
+//yet, it was just a test.  If true is not returned, the copyOfBoard will be 
+//reset to the current state of the board and the next available square will be 
+//tested.
 function checkIfPlayerCanWin(isAvailable, copyOfBoard, blankCpuChoice) {
 	for (i = 0; i < isAvailable.length; i++) {
-		copyOfBoard[isAvailable[i]] = playerMarker;
-		checkIfWin(playerMarker, copyOfBoard);
+		copyOfBoard[isAvailable[i]] = PLAYERMARKER;
+		checkIfWin(PLAYERMARKER, copyOfBoard);
 		if (winCondition == true) {
 			cpuChoice = isAvailable[i];
 			winCondition = false;
 			return;
 		}
-			copyOfBoard = board.slice();
+		copyOfBoard = board.slice();
 	}
 }
 
+//Check if any of the available squares are corner squares.  If a corner square
+//is open it is added to an array of openCorners.  Then the CPU will select a 
+//random index of the array as its choice.  Picking the first in the array 
+//everytime is boring!
 function checkCorners(isAvailable, openCorners, blankCpuChoice) {		
 	for (i = 0; i < isAvailable.length; i++) {
 		for (n = 0; n < CORNERSQUARES.length; n++) {
@@ -118,11 +141,13 @@ function checkCorners(isAvailable, openCorners, blankCpuChoice) {
 		}
 	}						
 	if (openCorners.length > 0) {
-		cpuChoice = openCorners[Math.floor(Math.random() * openCorners.length)];
-		return;
+		return cpuChoice = openCorners[Math.floor(Math.random() * openCorners.length)];
 	}
 }
 
+//Check if any of the available squares are the middle squares along each side.  
+//If a middle square is open it is added to an array of openSides.  Then the CPU
+// will select a random index of the array as its choice.  
 function checkOtherSquares(isAvailable, openSides, blankCpuChoice) {
 	for (i = 0; i < isAvailable.length; i++) {
 		if (isAvailable[i] == 4) {
@@ -138,11 +163,12 @@ function checkOtherSquares(isAvailable, openSides, blankCpuChoice) {
 		}
 	}
 	if (openSides.length > 0) {
-	cpuChoice = openSides[Math.floor(Math.random() * openSides.length)];
-	return;
+		return cpuChoice = openSides[Math.floor(Math.random() * openSides.length)];
 	}
 }		
 
+//Check if the square the player chooses is actually available.  This prevents
+//the player from selecting squares that are already occupied.
 function checkIfOpen(choice) {
 	if (winCondition == true) {
 		return;
@@ -158,11 +184,13 @@ function checkIfOpen(choice) {
 	}
 }
 
+//Update the board with the players choice and check if the player has won.  If
+//player has not won, call for CPUs turn.  
 function playerTurn(choice) {	
 	var squareToChange = document.getElementById(choice);
-	squareToChange.innerHTML = playerMarker;
-	board[choice] = playerMarker;
-	checkIfWin(playerMarker, board);
+	squareToChange.innerHTML = PLAYERMARKER;
+	board[choice] = PLAYERMARKER;
+	checkIfWin(PLAYERMARKER, board);
 	if (winCondition == true) {
 		var changeTitleBar = document.getElementById("titleBar");
 		changeTitleBar.innerHTML = "You Win!";
@@ -175,6 +203,8 @@ function playerTurn(choice) {
 	setTimeout("cpuTurn()", 500);
 }
 
+//Reinitialize variables to original valuesif the player would like to play again.
+//Call randomPlayer function to select a random player.
 function playAgain() {
 	board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 	cpuChoice = null;
@@ -188,6 +218,8 @@ function playAgain() {
 	randomPlayer();
 }
 
+//Select a randomPlayer to start the game.  If the random number is even, the 
+//CPU goes first, otherwise the player will start the game. 
 function randomPlayer() {
 	var x = Math.floor(Math.random() * 10)
 	if (x % 2 == 0) {
